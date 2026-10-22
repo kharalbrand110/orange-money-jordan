@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#141b25">
+    <title>Orange Money - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* ============ SPLASH SCREEN ============ */
+        #splash-screen {
+            position: absolute;
+            inset: 0;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-logo-box {
+            width: 140px;
+            height: 140px;
+            background-color: #ff6600;
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .splash-arrows {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .splash-arrows svg {
+            width: 32px;
+            height: 32px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .splash-arrows .arrow-up-right {
+            stroke: #ffffff;
+            stroke-width: 7;
+            fill: none;
+        }
+
+        .splash-arrows .arrow-down-left {
+            stroke: #ffffff;
+            stroke-width: 7;
+            fill: none;
+        }
+
+        .splash-text {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* ============ TOP HEADER (Black) ============ */
+        .top-header {
+            background-color: #141b25;
+            padding: 60px 30px 40px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-arrows {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+        }
+
+        .logo-arrows svg {
+            width: 32px;
+            height: 32px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .arrow-up-right {
+            stroke: #ffffff;
+            stroke-width: 7;
+            fill: none;
+        }
+
+        .arrow-down-left {
+            stroke: #ff6600;
+            stroke-width: 7;
+            fill: none;
+        }
+
+        .logo-text {
+            color: #ffffff;
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        /* ============ FORM SECTION ============ */
+        .form-section {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 16px 14px;
+            background: #ffffff;
+            transition: border-color 0.2s;
+        }
+
+        .input-box:focus-within {
+            border-color: #ff6600;
+        }
+
+        .input-icon {
+            width: 22px;
+            height: 22px;
+            margin-right: 14px;
+            fill: #64748b;
+            flex-shrink: 0;
+        }
+
+        .input-box input {
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #333;
+            width: 100%;
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .input-box input::placeholder {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .eye-icon {
+            width: 22px;
+            height: 22px;
+            fill: #64748b;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .hint-text {
+            font-size: 13.5px;
+            color: #64748b;
+            margin-top: 8px;
+            margin-left: 2px;
+            font-weight: 500;
+        }
+
+        .forgot-password {
+            color: #ff6600;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .btn-login {
+            background-color: #ff6600;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        .btn-login svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
+        }
+
+        .dual-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn-secondary {
+            padding: 15px 10px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .btn-dark {
+            background-color: #1e293b;
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-outline {
+            background-color: #ffffff;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+        }
+
+        .biometric-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 45px;
+            margin-bottom: 30px;
+        }
+
+        .biometric-icon {
+            width: 85px;
+            height: 85px;
+            margin-bottom: 12px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .biometric-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: #1e293b;
+        }
+
+        .biometric-text {
+            font-size: 16px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .bottom-bar {
+            background-color: #f8fafc;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .lang-btn {
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            padding: 8px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e293b;
+            cursor: pointer;
+        }
+
+        .contact-link {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1e293b;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* ============ OTP SCREEN ============ */
+        .otp-screen {
+            display: none;
+            flex-direction: column;
+            padding: 30px;
+            flex: 1;
+            background: #ffffff;
+        }
+
+        .otp-screen.active {
+            display: flex;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #1e293b;
+            cursor: pointer;
+            align-self: flex-start;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        .otp-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .otp-subtitle {
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .otp-subtitle strong {
+            color: #1e293b;
+        }
+
+        /* 6 Digit OTP Boxes */
+        .otp-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .otp-boxes input {
+            width: 48px;
+            height: 58px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+            outline: none;
+            background: #f8fafc;
+        }
+
+        .otp-boxes input:focus {
+            border-color: #ff6600;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+        }
+
+        .error-msg {
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #fecaca;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        /* ============ LOADING OVERLAY ============ */
+        .loading-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff6600;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ============ SPLASH SCREEN ============ -->
+        <div id="splash-screen">
+            <div class="splash-logo-box">
+                <div class="splash-arrows">
+                    <svg viewBox="0 0 24 24" class="arrow-up-right"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                    <svg viewBox="0 0 24 24" class="arrow-down-left"><path d="M17 7L7 17M7 17H17M7 17V7"/></svg>
+                </div>
+                <div class="splash-text">Jordan</div>
+            </div>
+        </div>
+        
+        <!-- ============ MAIN LOGIN SCREEN ============ -->
+        <div id="login-screen" style="display: flex; flex-direction: column; height: 100%;">
+            
+            <div class="top-header">
+                <div class="logo-container">
+                    <div class="logo-arrows">
+                        <svg viewBox="0 0 24 24" class="arrow-up-right"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                        <svg viewBox="0 0 24 24" class="arrow-down-left"><path d="M17 7L7 17M7 17H17M7 17V7"/></svg>
+                    </div>
+                    <div class="logo-text">Orange Money</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                
+                <div class="input-container">
+                    <div class="input-box">
+                        <svg class="input-icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                        <input type="tel" id="phoneNumber" placeholder="Phone Number" inputmode="numeric" maxlength="10">
+                    </div>
+                    <div class="hint-text">Wallet Number starting with 077, 078, or 079</div>
+                </div>
+
+                <div class="input-container">
+                    <div class="input-box">
+                        <svg class="input-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                        <input type="password" id="password" placeholder="Password">
+                        <svg class="eye-icon" id="eyeIcon" onclick="togglePassword()" viewBox="0 0 24 24">
+                            <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="forgot-password">Forgot Password</div>
+
+                <button class="btn-login" onclick="handleLogin()">
+                    Login
+                    <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                </button>
+
+                <div class="dual-buttons">
+                    <button class="btn-secondary btn-dark">Self Registration</button>
+                    <button class="btn-secondary btn-outline">First Time Login</button>
+                </div>
+
+                <div class="biometric-section">
+                    <div class="biometric-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 35 V20 H35" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M65 20 H80 V35" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M80 65 V80 H65" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M35 80 H20 V65" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                            <g fill="none" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round">
+                                <path d="M50 30 V70" />
+                                <path d="M42 38 C42 38, 42 58, 50 68 C58 58, 58 38, 58 38" />
+                                <path d="M36 45 C36 45, 36 62, 50 75 C64 62, 64 45, 64 45" />
+                                <path d="M50 30 C58 30, 64 36, 64 45" />
+                                <path d="M50 30 C42 30, 36 36, 36 45" />
+                                <path d="M45 48 C45 48, 45 56, 50 63 C55 56, 55 48, 55 48" />
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="biometric-text">Biometric login</div>
+                </div>
+
+            </div>
+
+            <div class="bottom-bar">
+                <button class="lang-btn">Arabic</button>
+                <a href="#" class="contact-link">Contact Us</a>
+            </div>
+        </div>
+
+        <!-- ============ OTP SCREEN (6 DIGITS) ============ -->
+        <div class="otp-screen" id="otp-screen">
+            <button class="back-btn" onclick="backToLogin()">←</button>
+            
+            <div class="otp-title">Verification Code</div>
+            <div class="otp-subtitle" id="otpSubtitle">
+                We have sent an SMS with a 6-digit verification code to <strong id="displayPhone">+962 7X XXX XXXX</strong>.
+            </div>
+
+            <div class="error-msg" id="otpError">Invalid OTP. Please try again.</div>
+
+            <!-- 6 OTP Boxes -->
+            <div class="otp-boxes" id="otpBoxes">
+                <input type="tel" maxlength="1" inputmode="numeric" autofocus>
+                <input type="tel" maxlength="1" inputmode="numeric">
+                <input type="tel" maxlength="1" inputmode="numeric">
+                <input type="tel" maxlength="1" inputmode="numeric">
+                <input type="tel" maxlength="1" inputmode="numeric">
+                <input type="tel" maxlength="1" inputmode="numeric">
+            </div>
+
+            <button class="btn-login" onclick="verifyOtp()" style="width: 100%;">
+                Verify Code
+            </button>
+        </div>
+
+        <!-- ============ LOADING OVERLAY ============ -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loadingText">Verifying...</div>
+        </div>
+
+    </div>
+
+    <script>
+        // Splash Screen Transition on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splash-screen');
+            
+            // Wait 2.5 seconds, then hide splash
+            setTimeout(() => {
+                splash.classList.add('hidden');
+            }, 2500);
+        });
+
+        // Toggle Password Visibility
+        function togglePassword() {
+            const pwdInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+            }
+        }
+
+        // Handle Login, Show Loader, then go to OTP
+        function handleLogin() {
+            const phoneInput = document.getElementById('phoneNumber').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!phoneInput || !password) {
+                alert('Please enter both Phone Number and Password.');
+                return;
+            }
+
+            const overlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            
+            // Show Login Loader
+            loadingText.textContent = 'Logging in...';
+            overlay.classList.add('show');
+
+            // Simulate network delay
+            setTimeout(() => {
+                overlay.classList.remove('show');
+
+                // Format the phone number
+                let formattedPhone = phoneInput;
+                if (phoneInput.startsWith('0')) {
+                    formattedPhone = '+962 ' + phoneInput.substring(1, 3) + ' ' + phoneInput.substring(3, 6) + ' ' + phoneInput.substring(6);
+                } else {
+                    formattedPhone = '+962 ' + phoneInput;
+                }
+
+                document.getElementById('displayPhone').textContent = formattedPhone;
+                
+                // Switch Screens
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('otp-screen').classList.add('active');
+                
+                // Focus first OTP box
+                setTimeout(() => document.querySelector('#otpBoxes input').focus(), 100);
+            }, 1500); // 1.5s loader
+        }
+
+        // Back to Login
+        function backToLogin() {
+            document.getElementById('otp-screen').classList.remove('active');
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('otpError').classList.remove('show');
+            document.querySelectorAll('#otpBoxes input').forEach(i => i.value = '');
+        }
+
+        // Auto-tab 6 OTP Boxes
+        const otpInputs = document.querySelectorAll('#otpBoxes input');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Verify OTP (ALWAYS INVALID)
+        function verifyOtp() {
+            let otp = '';
+            otpInputs.forEach(input => otp += input.value);
+
+            if (otp.length < 6) {
+                document.getElementById('otpError').textContent = 'Please enter the 6-digit code.';
+                document.getElementById('otpError').classList.add('show');
+                return;
+            }
+
+            const overlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            const errorEl = document.getElementById('otpError');
+            
+            // Show OTP Loader
+            loadingText.textContent = 'Verifying OTP...';
+            overlay.classList.add('show');
+            errorEl.classList.remove('show');
+
+            // Simulate checking
+            setTimeout(() => {
+                overlay.classList.remove('show');
+                
+                // ALWAYS SHOW INVALID
+                errorEl.textContent = 'Invalid OTP. Please try again.';
+                errorEl.classList.add('show');
+                
+                // Clear inputs
+                otpInputs.forEach(i => i.value = '');
+                otpInputs[0].focus();
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
